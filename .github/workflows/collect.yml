@@ -1,0 +1,39 @@
+name: Weekly feeds
+
+on:
+  schedule:
+    # Fridays at 14:23 UTC (19:53 in India). Not on the hour, when GitHub is busiest.
+    - cron: "23 14 * * 5"
+  # Adds a "Run workflow" button on the Actions tab, to run it by hand.
+  workflow_dispatch:
+
+# Lets the job save latest.md back into this repository. Nothing else.
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Get this repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Install the one library the script needs
+        run: pip install -r requirements.txt
+
+      - name: Collect this week's links
+        run: python collect.py
+
+      - name: Save latest.md and the weekly copy
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add latest.md archive/
+          git commit -m "Weekly feeds $(date -u +%Y-%m-%d)" || echo "Nothing changed"
+          git push
