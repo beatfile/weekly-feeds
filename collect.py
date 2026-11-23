@@ -80,7 +80,7 @@ COMPANIES = [
 # News feeds (RSS or Atom).
 AI_FEEDS = [
     ("Hacker News, 150+ points",
-     "https://hnrss.org/newest?q=AI+OR+LLM&points=150"),
+     "https://hnrss.org/newest?q=AI+OR+LLM+OR+GPT+OR+Claude+OR+Gemini&points=150"),
     ("Google News: AI models",
      "https://news.google.com/rss/search?q=%22AI+model%22+launch+when:7d&hl=en-IN&gl=IN&ceid=IN:en"),
 ]
